@@ -75,7 +75,7 @@ export default function MapDraw() {
             modeConfig,
             pickable: true,
             selectedFeatureIndexes,
-            onEdit: ({ updatedData, editType }: { updatedData: any, editType: string }) => {
+            onEdit: ({editContext,editType,updatedData}:any) => {
                 setFeatures(updatedData);
                 setSelectMode(() => SELECTION_TYPE.NONE);
                 if (modeConfig.booleanOperation === undefined && editType === "addTentativePosition") {

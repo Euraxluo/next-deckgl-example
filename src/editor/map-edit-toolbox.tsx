@@ -12,7 +12,7 @@ import {
     ViewMode,
 } from '@nebula.gl/edit-modes';
 import styled from 'styled-components';
-import {ExportModal, ImportModal} from "@nebula.gl/editor";
+import { ExportModal, ImportModal } from "@nebula.gl/editor";
 import {
     ActivityIcon,
     BoxSelectIcon,
@@ -55,8 +55,8 @@ const Tools = styled.div`
 
 const Button = styled.button<{ active?: boolean; kind?: string }>`
   color: #fff;
-  background: ${({kind, active}) =>
-          kind === 'danger' ? 'rgb(180, 40, 40)' : active ? 'rgb(0, 105, 217)' : 'rgb(90, 98, 94)'};
+  background: ${({ kind, active }) =>
+        kind === 'danger' ? 'rgb(180, 40, 40)' : active ? 'rgb(0, 105, 217)' : 'rgb(90, 98, 94)'};
   font-size: 1em;
   font-weight: 400;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
@@ -104,36 +104,36 @@ const MODE_GROUPS: {
         title?: string;
     }[];
 }[] = [
-    {
-        modes: [
-            {mode: DrawPointMode, content: <MapPinIcon/>}
-        ],
-    },
-    {
-        modes: [
-            {
-                mode: DrawLineStringMode,
-                content: <ActivityIcon/>,
-            },
-        ],
-    },
-    {
-        modes: [
-            {mode: DrawPolygonMode, content: <HexagonIcon/>},
-            {mode: DrawRectangleMode, content: <RectangleHorizontalIcon/>},
-            {mode: DrawCircleFromCenterMode, content: <CircleIcon/>},
-        ],
-    },
-    {
-        modes: [
-            {mode: MeasureDistanceMode, content: <RulerIcon/>},
-            {mode: MeasureAngleMode, content: <ChevronLeftIcon/>},
-            {mode: MeasureAreaMode, content: < TriangleIcon/>},
-        ],
-    },
-];
+        {
+            modes: [
+                { mode: DrawPointMode, content: <MapPinIcon /> }
+            ],
+        },
+        {
+            modes: [
+                {
+                    mode: DrawLineStringMode,
+                    content: <ActivityIcon />,
+                },
+            ],
+        },
+        {
+            modes: [
+                { mode: DrawPolygonMode, content: <HexagonIcon /> },
+                { mode: DrawRectangleMode, content: <RectangleHorizontalIcon /> },
+                { mode: DrawCircleFromCenterMode, content: <CircleIcon /> },
+            ],
+        },
+        {
+            modes: [
+                { mode: MeasureDistanceMode, content: <RulerIcon /> },
+                { mode: MeasureAngleMode, content: <ChevronLeftIcon /> },
+                { mode: MeasureAreaMode, content: < TriangleIcon /> },
+            ],
+        },
+    ];
 
-function ModeButton({buttonConfig, mode, onClick}: any) {
+function ModeButton({ buttonConfig, mode, onClick }: any) {
     return (
         <Button
             title={buttonConfig.title || buttonConfig.mode.name}
@@ -144,10 +144,10 @@ function ModeButton({buttonConfig, mode, onClick}: any) {
     );
 }
 
-function ModeGroupButtons({modeGroup, mode, onSetMode}: any) {
+function ModeGroupButtons({ modeGroup, mode, onSetMode }: any) {
     const [expanded, setExpanded] = React.useState(false);
 
-    const {modes} = modeGroup;
+    const { modes } = modeGroup;
 
     let subTools = null;
 
@@ -186,21 +186,21 @@ function ModeGroupButtons({modeGroup, mode, onSetMode}: any) {
     );
 }
 
-const BlackJson = {type: 'FeatureCollection', features: []};
+const BlackJson = { type: 'FeatureCollection', features: [] };
 var history: any[] = [];
 export default function Toolbox({
-                                    editMode,
-                                    selectMode,
-                                    selectedFeatureIndexes,
-                                    modeConfig,
-                                    geoJson,
-                                    onSetEditMode,
-                                    onSetSelectMode,
-                                    onSetSelectedFeatureIndexes,
-                                    onSetModeConfig,
-                                    onSetGeoJson,
-                                    onImport,
-                                }: Props) {
+    editMode,
+    selectMode,
+    selectedFeatureIndexes,
+    modeConfig,
+    geoJson,
+    onSetEditMode,
+    onSetSelectMode,
+    onSetSelectedFeatureIndexes,
+    onSetModeConfig,
+    onSetGeoJson,
+    onImport,
+}: Props) {
     const [showConfig, setShowConfig] = React.useState(false);
     const [showImport, setShowImport] = React.useState(false);
     const [showExport, setShowExport] = React.useState(false);
@@ -209,7 +209,7 @@ export default function Toolbox({
 
     var saveData = React.useCallback(() => {
         console.log('Saving data')
-        const newData = {...geoJson};
+        const newData = { ...geoJson };
         const newHistory = [...history];
 
         if (historyIndex < newHistory.length - 1) {
@@ -231,10 +231,12 @@ export default function Toolbox({
 
     // Load data from localStorage on mount
     React.useEffect(() => {
-        var data = JSON.parse(localStorage.getItem('map-edit-toolbox-storage') || '[]');
+        var data = JSON.parse(localStorage.getItem('map-edit-toolbox-storage') || '[{"type":"FeatureCollection","features":[]}]');
         history = data;
-        setHistoryIndex(data.length - 1);
-        onSetGeoJson(data[data.length - 1])
+        if (data.length > 0) {
+            setHistoryIndex(data.length - 1);
+            onSetGeoJson(data[data.length - 1])
+        }
         console.log('Data loaded from localStorage:', data);
     }, []);
 
@@ -281,7 +283,7 @@ export default function Toolbox({
                             setShowClearConfirmation(false);
                         }}
                         title="ViewMode">
-                        <PointerIcon/>
+                        <PointerIcon />
                     </Button>
                     <Button
                         onClick={() => {
@@ -290,23 +292,23 @@ export default function Toolbox({
                         }}
                         title="SelectEditModifyMode"
                     >
-                        <BoxSelectIcon/>
+                        <BoxSelectIcon />
                     </Button>
                 </SubToolsContainer>
 
                 {MODE_GROUPS.map((modeGroup, i) => (
-                    <ModeGroupButtons key={i} modeGroup={modeGroup} mode={editMode} onSetMode={onSetEditMode}/>
+                    <ModeGroupButtons key={i} modeGroup={modeGroup} mode={editMode} onSetMode={onSetEditMode} />
                 ))}
                 <Button onClick={() => setShowExport(true)} title="Export">
-                    <DownloadIcon/>
+                    <DownloadIcon />
                 </Button>
                 <Button onClick={() => setShowImport(true)} title="Import">
-                    <ShareIcon/>
+                    <ShareIcon />
                 </Button>
 
                 <SubToolsContainer>
                     <Button onClick={() => setShowConfig(true)}>
-                        <SettingsIcon/>
+                        <SettingsIcon />
                     </Button>
                     {showConfig && (
                         <SubTools>
@@ -316,29 +318,29 @@ export default function Toolbox({
                                     onSetModeConfig({});
                                     setShowConfig(false);
                                 }}>
-                                <ChevronRightIcon/>
+                                <ChevronRightIcon />
                             </Button>
                             <Button
 
                                 title="difference"
-                                onClick={() => onSetModeConfig({booleanOperation: 'difference'})}
+                                onClick={() => onSetModeConfig({ booleanOperation: 'difference' })}
                                 active={modeConfig && modeConfig.booleanOperation === 'difference'}
                             >
-                                <MinusIcon/>
+                                <MinusIcon />
                             </Button>
                             <Button
                                 title="union"
-                                onClick={() => onSetModeConfig({booleanOperation: 'union'})}
+                                onClick={() => onSetModeConfig({ booleanOperation: 'union' })}
                                 active={modeConfig && modeConfig.booleanOperation === 'union'}
                             >
-                                <PlusIcon/>
+                                <PlusIcon />
                             </Button>
                             <Button
                                 title="intersection"
-                                onClick={() => onSetModeConfig({booleanOperation: 'intersection'})}
+                                onClick={() => onSetModeConfig({ booleanOperation: 'intersection' })}
                                 active={modeConfig && modeConfig.booleanOperation === 'intersection'}
                             >
-                                <XIcon/>
+                                <XIcon />
                             </Button>
                         </SubTools>
                     )}
@@ -348,7 +350,7 @@ export default function Toolbox({
                     <Button
                         onClick={() => setShowClearConfirmation(true)}
                         title="Clear">
-                        <TrashIcon/>
+                        <TrashIcon />
                     </Button>
                     {showClearConfirmation && (
                         <SubTools>
@@ -362,7 +364,7 @@ export default function Toolbox({
                                     setShowClearConfirmation(false);
                                 }}
                             >
-                                <EraserIcon/>
+                                <EraserIcon />
                             </Button>
                             <Button
                                 title="Clean all history features"
@@ -375,22 +377,22 @@ export default function Toolbox({
                                     setShowClearConfirmation(false);
                                 }}
                             >
-                                <Trash2Icon/>
+                                <Trash2Icon />
                             </Button>
                             <Button
                                 title="cancel"
                                 onClick={() => setShowClearConfirmation(false)}>
-                                <XCircleIcon/>
+                                <XCircleIcon />
                             </Button>
                         </SubTools>
                     )}
                 </SubToolsContainer>
 
                 <Button onClick={() => redo()} title="redo">
-                    <RedoIcon/>
+                    <RedoIcon />
                 </Button>
                 <Button onClick={() => undo()} title="undo">
-                    <UndoIcon/>
+                    <UndoIcon />
                 </Button>
 
             </Tools>
@@ -405,7 +407,7 @@ export default function Toolbox({
                 />
             )}
 
-            {showExport && <ExportModal geoJson={geoJson} onClose={() => setShowExport(false)}/>}
+            {showExport && <ExportModal geoJson={geoJson} onClose={() => setShowExport(false)} />}
         </>
     );
 }
