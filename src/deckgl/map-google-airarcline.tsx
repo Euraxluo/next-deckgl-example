@@ -15,6 +15,7 @@ const renderMap = (status: any) => {
     return null;
 };
 
+declare var google: any;
 function MyMap({ center, zoom }: { center: any, zoom: number }) {
     const ref = useRef();
     const [map, setMap] = useState(null);
@@ -62,10 +63,9 @@ function MyMap({ center, zoom }: { center: any, zoom: number }) {
             overlay.setMap(map);
         }
     }, [map, center, zoom, overlay]);
-
     useEffect(() => {
         // Create map
-        const mapInstance = (new (window as any).google).maps.Map(document.getElementById('map'), {
+        const mapInstance = new google.maps.Map(document.getElementById('map'), {
             center: { lat: 40, lng: -100 },
             zoom: 5,
             mapId: GOOGLE_MAP_ID // Only required for Vector maps
