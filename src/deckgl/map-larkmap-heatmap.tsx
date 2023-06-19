@@ -50,8 +50,8 @@ async function getTiffData() {
     // const options = { units: "meters" };
     // 根据GeoJSON对象的边界创建栅格
     const bbox = turf.bbox(geoJson);
-    var grid = turf.pointGrid(bbox, cellSide, options);
-    const result = [];
+    var grid = turf.pointGrid(bbox, cellSide, options as any);
+    const result: any = [];
     grid.features.forEach((feature) => {
         result.push([feature.geometry.coordinates[0], feature.geometry.coordinates[1], 2])
     })
@@ -96,12 +96,12 @@ function CustomDraw() {
 
 export default function MyMap() {
     const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
-    const onLarkMapViewStateChange = ({ viewState }) => {
+    const onLarkMapViewStateChange = ({ viewState }: any) => {
         console.log("onLarkMapViewStateChange");
         console.log(viewState);
         setViewState(viewState);
     };
-    const onDeckGLViewStateChange = ({ viewState }) => {
+    const onDeckGLViewStateChange = ({ viewState }: any) => {
         console.log("onDeckGLViewStateChange");
         console.log(viewState);
         setViewState(viewState);

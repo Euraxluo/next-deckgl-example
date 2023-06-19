@@ -4,6 +4,7 @@ import maplibregl from 'maplibre-gl';
 import { DeckGL } from '@deck.gl/react/typed';
 import { LineLayer, ArcLayer, GeoJsonLayer, ScatterplotLayer } from '@deck.gl/layers/typed';
 import * as turf from '@turf/turf'
+import { Color } from 'deck.gl/typed';
 
 
 const INITIAL_VIEW_STATE = {
@@ -57,8 +58,8 @@ async function getTiffData() {
     const bbox = turf.bbox(geoJson);
 
     // var grid = turf.squareGrid(bbox, cellSide, options);
-    var grid = turf.pointGrid(bbox, cellSide, options);
-    const result = [];
+    var grid = turf.pointGrid(bbox, cellSide, options as any);
+    const result: any[] = [];
     grid.features.forEach((feature) => {
         result.push([feature.geometry.coordinates[0], feature.geometry.coordinates[1], 1])
     })
@@ -88,7 +89,7 @@ export default function MyMap() {
             filled: true,
             pointRadiusMinPixels: 2,
             pointRadiusScale: 2000,
-            getPointRadius: f => 11 - f.properties.scalerank,
+            getPointRadius: (f: any) => 11 - f.properties.scalerank,
             getFillColor: [200, 0, 80, 180],
             // Interactive props
             pickable: true,
@@ -100,7 +101,7 @@ export default function MyMap() {
         new ArcLayer({
             id: 'arcs',
             data: AIR_PORTS,
-            dataTransform: d => d.features.filter(f => f.properties.scalerank < 4),
+            dataTransform: (d: any) => d.features.filter((f: any) => f.properties.scalerank < 4),
             // Styles
             getSourcePosition: f => [-0.4531566, 51.4709959], // London
             getTargetPosition: f => f.geometry.coordinates,
@@ -115,7 +116,7 @@ export default function MyMap() {
             radiusScale: 0.1,
             radiusMinPixels: 0.25,
             getPosition: d => [d[0], d[1], 0],
-            getFillColor: d => (d[2] === 1 ? MALE_COLOR : FEMALE_COLOR),
+            getFillColor: (d: any) => (d[2] === 1 ? MALE_COLOR : FEMALE_COLOR) as Color,
             getRadius: 1,
             updateTriggers: {
                 getFillColor: [MALE_COLOR, FEMALE_COLOR]
@@ -157,7 +158,7 @@ export default function MyMap() {
             controller={true}
             layers={layers} >
 
-            <Map reuseMaps={true} mapLib={maplibregl} mapStyle={mapStyle} />
+            <Map reuseMaps={true} mapLib={maplibregl} mapStyle={mapStyle as any} />
         </DeckGL>
     );
 }

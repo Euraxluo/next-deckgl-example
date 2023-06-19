@@ -9,13 +9,13 @@ const AIR_PORTS = 'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_1
 
 export const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GoogleMapsAPIKey;
 export const GOOGLE_MAP_ID = process.env.NEXT_PUBLIC_GoogleMapsMapId;
-const renderMap = status => {
+const renderMap = (status: any) => {
     if (status === Status.LOADING) return <h3>{status} ..</h3>;
     if (status === Status.FAILURE) return <h3>{status} ...</h3>;
     return null;
 };
 
-function MyMap({ center, zoom }) {
+function MyMap({ center, zoom }: { center: any, zoom: number }) {
     const ref = useRef();
     const [map, setMap] = useState(null);
     const overlay = useMemo(
@@ -29,7 +29,7 @@ function MyMap({ center, zoom }) {
                         filled: true,
                         pointRadiusMinPixels: 2,
                         pointRadiusScale: 2000,
-                        getPointRadius: f => 11 - f.properties.scalerank,
+                        getPointRadius: (f:any) => 11 - f.properties.scalerank,
                         getFillColor: [200, 0, 80, 180],
                         // Interactive props
                         pickable: true,
@@ -57,15 +57,15 @@ function MyMap({ center, zoom }) {
 
     useEffect(() => {
         if (map) {
-            map.setCenter(center);
-            map.setZoom(zoom);
+            (map as any).setCenter(center);
+            (map as any).setZoom(zoom);
             overlay.setMap(map);
         }
     }, [map, center, zoom, overlay]);
 
     useEffect(() => {
         // Create map
-        const mapInstance = new google.maps.Map(document.getElementById('map'), {
+        const mapInstance = (new (window as any).google).maps.Map(document.getElementById('map'), {
             center: { lat: 40, lng: -100 },
             zoom: 5,
             mapId: GOOGLE_MAP_ID // Only required for Vector maps
@@ -75,7 +75,7 @@ function MyMap({ center, zoom }) {
     }, []);
     return (
         <>
-            <div ref={ref} id="map" style={{ height: '100vh', width: '100wh' }} />
+            <div ref={ref as any} id="map" style={{ height: '100vh', width: '100wh' }} />
         </>
     );
 }
@@ -86,7 +86,7 @@ export default function Root() {
 
     return (
         <>
-            <Wrapper apiKey={GOOGLE_MAPS_API_KEY} render={renderMap}>
+            <Wrapper apiKey={GOOGLE_MAPS_API_KEY as string} render={renderMap as any}>
                 <MyMap center={center} zoom={zoom} />
             </Wrapper>
         </>

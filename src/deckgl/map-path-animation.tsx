@@ -9,7 +9,7 @@ import { Map } from 'react-map-gl';
 
 
 
-function getTurnAngle(startHeading, endHeading) {
+function getTurnAngle(startHeading: number, endHeading: number) {
     let turnAngle = endHeading - startHeading;
     if (turnAngle < -180) turnAngle += 360;
     if (turnAngle > 180) turnAngle -= 360;
@@ -136,7 +136,7 @@ const MODEL_URL =
 
 
 var timestamp = 0;
-function formatTimeLabel(seconds) {
+function formatTimeLabel(seconds: number) {
     const h = Math.floor(seconds / 3600);
     const m = Math.floor(seconds / 60) % 60;
     const s = seconds % 60;
@@ -371,7 +371,7 @@ export default function PathMap() {
         new PathLayer({
             id: 'trip-lines',
             data: tripList,
-            getPath: d => d.keyframes.map(f => f.point),
+            getPath: d => d.keyframes.map((f: any) => f.point),
             getColor: _ => [128 * Math.random(), 255 * Math.random(), 255],
             jointRounded: true,
             opacity: 0.5,
