@@ -49,6 +49,7 @@ export default function Home() {
           note: "draw with nebulagl"
         })}
       </div>
+      <iframe className="border: 1px solid rgba(0, 0, 0, 0.1);border-radius:2px;" width="800" height="450" src="https://codesandbox.io/p/sandbox/github/Euraxluo/nebula.gl/tree/master/examples/nextjs-react18-editor-sample?file=/src/pages/editor.tsx"></iframe>
     </main>
   )
 }
