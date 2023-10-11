@@ -37,10 +37,6 @@ export default function Home() {
           note: "map-google-airarcline"
         })}
         {MyLink({
-          href: "/map/map-larkmap-heatmap",
-          note: "map-larkmap-heatmap"
-        })}
-        {MyLink({
           href: "/map/map-mapbox-empty",
           note: "map-mapbox-empty"
         })}

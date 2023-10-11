@@ -139,7 +139,7 @@ export default function MyMap() {
                     // scl=2&style=6 为影像底图（不含路网、不含注记）
                     // scl=1&style=8 为影像路图（含路网，含注记）
                     // scl=2&style=8 为影像路网（含路网，不含注记）
-                    "http://wprd01.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=2&scl=1&style=8"
+                    "https://wprd01.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=2&scl=1&style=8"
                 ],
                 "tileSize": 256
             }
